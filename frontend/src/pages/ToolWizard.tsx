@@ -1,16 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  Info,
-  Plus,
-  Trash2,
-  Globe,
-  Code2,
-  Plug,
-} from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { api, type ToolInput } from "@/lib/api";
 import type {
   ExecutionType,
@@ -32,8 +22,8 @@ const STEPS = ["Name", "Description", "Input fields", "Tool action"];
 function Tooltip({ text }: { text: string }) {
   return (
     <span className="group relative inline-flex">
-      <Info className="h-4 w-4 cursor-help text-slate-400" />
-      <span className="pointer-events-none absolute left-1/2 top-6 z-10 w-64 -translate-x-1/2 rounded-lg bg-slate-900 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+      <Icon name="circle-info" className="cursor-help text-sm text-slate-400" />
+      <span className="pointer-events-none absolute left-1/2 top-6 z-10 w-64 -translate-x-1/2 bg-slate-900 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
         {text}
       </span>
     </span>
@@ -138,15 +128,15 @@ export default function ToolWizard() {
           <div key={label} className="flex flex-1 items-center gap-2">
             <div
               className={cn(
-                "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-sm font-semibold",
+                "flex h-8 w-8 flex-shrink-0 items-center justify-center text-sm font-semibold",
                 i < step
                   ? "bg-brand-600 text-white"
                   : i === step
-                  ? "bg-brand-100 text-brand-700 ring-2 ring-brand-500"
+                  ? "bg-white text-slate-900 ring-2 ring-slate-900"
                   : "bg-slate-100 text-slate-400"
               )}
             >
-              {i < step ? <Check className="h-4 w-4" /> : i + 1}
+              {i < step ? <Icon name="check" className="text-sm" /> : i + 1}
             </div>
             <span
               className={cn(
@@ -207,9 +197,9 @@ export default function ToolWizard() {
                       </span>
                       <button
                         onClick={() => setParams(params.filter((_, idx) => idx !== i))}
-                        className="text-slate-400 hover:text-red-500"
+                        className="text-slate-400 hover:text-slate-900"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Icon name="trash" className="text-sm" />
                       </button>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
@@ -269,7 +259,7 @@ export default function ToolWizard() {
                         type="checkbox"
                         checked={p.required}
                         onChange={(e) => updateParam(i, { required: e.target.checked })}
-                        className="h-4 w-4 rounded border-slate-300"
+                        className="h-4 w-4 border-slate-300 accent-slate-900"
                       />
                       Required
                     </label>
@@ -280,7 +270,7 @@ export default function ToolWizard() {
                 variant="outline"
                 onClick={() => setParams([...params, emptyParam()])}
               >
-                <Plus className="h-4 w-4" /> Add field
+                <Icon name="plus" className="text-sm" /> Add field
               </Button>
             </div>
           )}
@@ -297,7 +287,7 @@ export default function ToolWizard() {
           )}
 
           {error && (
-            <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="border border-slate-900 bg-slate-50 px-4 py-3 text-sm text-slate-900">
               {error}
             </div>
           )}
@@ -309,15 +299,15 @@ export default function ToolWizard() {
           variant="ghost"
           onClick={() => (step === 0 ? navigate("/") : setStep(step - 1))}
         >
-          <ArrowLeft className="h-4 w-4" /> Back
+          <Icon name="arrow-left" className="text-sm" /> Back
         </Button>
         {step < STEPS.length - 1 ? (
           <Button disabled={!canNext} onClick={() => setStep(step + 1)}>
-            Next <ArrowRight className="h-4 w-4" />
+            Next <Icon name="arrow-right" className="text-sm" />
           </Button>
         ) : (
           <Button disabled={saving} onClick={save}>
-            <Check className="h-4 w-4" /> {isEdit ? "Save changes" : "Create tool"}
+            <Icon name="check" className="text-sm" /> {isEdit ? "Save changes" : "Create tool"}
           </Button>
         )}
       </div>
@@ -327,13 +317,13 @@ export default function ToolWizard() {
 
 function ExecChoice({
   active,
-  icon: Icon,
+  icon,
   title,
   subtitle,
   onClick,
 }: {
   active: boolean;
-  icon: typeof Globe;
+  icon: string;
   title: string;
   subtitle: string;
   onClick: () => void;
@@ -342,15 +332,17 @@ function ExecChoice({
     <button
       onClick={onClick}
       className={cn(
-        "flex flex-1 flex-col items-start gap-2 rounded-xl border p-4 text-left transition-colors",
+        "flex flex-1 flex-col items-start gap-2 border p-4 text-left transition-colors",
         active
-          ? "border-brand-500 bg-brand-50 ring-1 ring-brand-500"
+          ? "border-slate-900 bg-slate-900 text-white"
           : "border-slate-200 hover:bg-slate-50"
       )}
     >
-      <Icon className={cn("h-5 w-5", active ? "text-brand-600" : "text-slate-400")} />
+      <Icon name={icon} className={cn("text-lg", active ? "text-white" : "text-slate-400")} />
       <div className="font-medium">{title}</div>
-      <div className="text-xs text-slate-500">{subtitle}</div>
+      <div className={cn("text-xs", active ? "text-slate-300" : "text-slate-500")}>
+        {subtitle}
+      </div>
     </button>
   );
 }
@@ -379,21 +371,21 @@ function ActionStep({
         <div className="mt-2 flex gap-3">
           <ExecChoice
             active={executionType === "http"}
-            icon={Globe}
+            icon="globe"
             title="Call an API"
             subtitle="Jira, GitHub, Slack, any REST API"
             onClick={() => setExec("http")}
           />
           <ExecChoice
             active={executionType === "integration"}
-            icon={Plug}
+            icon="plug"
             title="Use an integration"
             subtitle="A connection you already set up"
             onClick={() => setExec("integration")}
           />
           <ExecChoice
             active={executionType === "javascript" || executionType === "python"}
-            icon={Code2}
+            icon="code"
             title="Run a script"
             subtitle="JavaScript or Python (advanced)"
             onClick={() => setExec("javascript")}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Copy, Check, Download, Zap, AlertCircle } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { api, type InstallResult, type InstallTargetStatus } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,7 +68,7 @@ export default function ExportWizard() {
       {/* One-click auto configuration */}
       <section className="space-y-3">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-brand-600" />
+          <Icon name="bolt" className="text-sm text-slate-900" />
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
             Connect automatically — no copying
           </h2>
@@ -97,23 +97,23 @@ export default function ExportWizard() {
                       "Connecting…"
                     ) : (
                       <>
-                        <Zap className="h-4 w-4" /> Connect
+                        <Icon name="bolt" className="text-sm" /> Connect
                       </>
                     )}
                   </Button>
                   {result && (
                     <div
                       className={cn(
-                        "flex items-start gap-2 rounded-lg px-3 py-2 text-xs",
+                        "flex items-start gap-2 border px-3 py-2 text-xs",
                         result.ok
-                          ? "bg-green-50 text-green-700"
-                          : "bg-amber-50 text-amber-700"
+                          ? "border-slate-300 bg-slate-50 text-slate-900"
+                          : "border-slate-900 bg-slate-50 text-slate-900"
                       )}
                     >
                       {result.ok ? (
-                        <Check className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+                        <Icon name="circle-check" className="mt-0.5 text-xs" />
                       ) : (
-                        <AlertCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+                        <Icon name="circle-exclamation" className="mt-0.5 text-xs" />
                       )}
                       <span>{result.message}</span>
                     </div>
@@ -141,10 +141,10 @@ export default function ExportWizard() {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={cn(
-              "rounded-xl px-4 py-2 text-sm font-medium transition-colors",
+              "px-4 py-2 text-sm font-medium transition-colors",
               tab === t.key
                 ? "bg-brand-600 text-white"
-                : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50"
+                : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
             )}
           >
             {t.label}
@@ -158,16 +158,16 @@ export default function ExportWizard() {
             {TABS.find((t) => t.key === tab)?.hint}
           </p>
           <div className="relative">
-            <pre className="overflow-auto rounded-xl bg-slate-900 p-4 text-xs text-slate-100">
+            <pre className="overflow-auto border border-slate-900 bg-slate-900 p-4 text-xs text-slate-100">
               {snippet}
             </pre>
             <Button
               size="sm"
-              variant="secondary"
+              variant="outline"
               className="absolute right-3 top-3"
               onClick={copy}
             >
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              <Icon name={copied ? "check" : "copy"} className="text-sm" />
               {copied ? "Copied" : "Copy"}
             </Button>
           </div>
@@ -184,7 +184,7 @@ export default function ExportWizard() {
           </div>
           <a href="/api/export/project.json" download>
             <Button variant="outline">
-              <Download className="h-4 w-4" /> Download project.json
+              <Icon name="download" className="text-sm" /> Download project.json
             </Button>
           </a>
         </CardContent>

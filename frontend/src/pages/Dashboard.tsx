@@ -1,16 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Plus,
-  Wrench,
-  Plug,
-  Activity,
-  Pencil,
-  Trash2,
-  Upload,
-  Download,
-  Check,
-} from "lucide-react";
 import { api } from "@/lib/api";
 import type { Project, ServerInfo } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -19,21 +8,22 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Icon } from "@/components/ui/icon";
 
 function StatCard({
-  icon: Icon,
+  icon,
   label,
   value,
 }: {
-  icon: typeof Wrench;
+  icon: string;
   label: string;
   value: React.ReactNode;
 }) {
   return (
     <Card>
       <CardContent className="flex items-center gap-4 py-5">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
-          <Icon className="h-5 w-5" />
+        <div className="flex h-11 w-11 items-center justify-center bg-slate-100 text-slate-900">
+          <Icon name={icon} className="text-base" />
         </div>
         <div>
           <div className="text-sm text-slate-500">{label}</div>
@@ -134,14 +124,14 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={() => setEditingMeta(true)}
-                className="mt-2 rounded-lg p-1.5 text-slate-400 opacity-0 transition-opacity hover:bg-slate-100 group-hover:opacity-100"
+                className="mt-2 p-1.5 text-slate-400 opacity-0 transition-opacity hover:bg-slate-100 group-hover:opacity-100"
                 title="Edit project"
               >
-                <Pencil className="h-4 w-4" />
+                <Icon name="pen" className="text-sm" />
               </button>
               {saved && (
                 <Badge tone="green" className="mt-2">
-                  <Check className="h-3 w-3" /> Saved
+                  <Icon name="check" className="text-xs" /> Saved
                 </Badge>
               )}
             </div>
@@ -156,21 +146,21 @@ export default function Dashboard() {
             onChange={onImport}
           />
           <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
-            <Upload className="h-4 w-4" /> Import
+            <Icon name="upload" className="text-sm" /> Import
           </Button>
           <a href="/api/export/project.json" download>
             <Button variant="outline" size="sm">
-              <Download className="h-4 w-4" /> Export
+              <Icon name="download" className="text-sm" /> Export
             </Button>
           </a>
         </div>
       </header>
 
       <div className="grid grid-cols-3 gap-4">
-        <StatCard icon={Wrench} label="Tools" value={project.tools.length} />
-        <StatCard icon={Plug} label="Integrations" value={project.integrations.length} />
+        <StatCard icon="wrench" label="Tools" value={project.tools.length} />
+        <StatCard icon="plug" label="Integrations" value={project.integrations.length} />
         <StatCard
-          icon={Activity}
+          icon="signal"
           label="Connected AI"
           value={
             <Badge tone={connectedCount > 0 ? "green" : "neutral"}>
@@ -185,7 +175,7 @@ export default function Dashboard() {
       </div>
 
       <Button size="lg" className="w-full" onClick={() => navigate("/tools/new")}>
-        <Plus className="h-5 w-5" /> Add a new tool
+        <Icon name="plus" className="text-base" /> Add a new tool
       </Button>
 
       <section>
@@ -218,14 +208,14 @@ export default function Dashboard() {
                       size="sm"
                       onClick={() => navigate(`/tools/${tool.id}`)}
                     >
-                      <Pencil className="h-4 w-4" />
+                      <Icon name="pen" className="text-sm" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => removeTool(tool.id)}
                     >
-                      <Trash2 className="h-4 w-4 text-red-500" />
+                      <Icon name="trash" className="text-sm text-slate-500" />
                     </Button>
                   </div>
                 </CardContent>

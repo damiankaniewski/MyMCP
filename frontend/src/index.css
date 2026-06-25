@@ -1,9 +1,70 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Monochrome theme tokens (space-separated RGB channels, consumed by
+ * tailwind.config.js). The dark theme inverts the gray ramp and the ink accent
+ * so the whole UI flips with a single `.dark` class on <html>.
+ */
 :root {
   color-scheme: light;
+
+  --white: 255 255 255;
+
+  --slate-50: 250 250 250;
+  --slate-100: 245 245 245;
+  --slate-200: 229 229 229;
+  --slate-300: 212 212 212;
+  --slate-400: 163 163 163;
+  --slate-500: 115 115 115;
+  --slate-600: 82 82 82;
+  --slate-700: 64 64 64;
+  --slate-800: 38 38 38;
+  --slate-900: 23 23 23;
+  --slate-950: 10 10 10;
+
+  /* Ink accent: near-black in light mode. */
+  --brand-50: 245 245 245;
+  --brand-100: 229 229 229;
+  --brand-500: 64 64 64;
+  --brand-600: 23 23 23;
+  --brand-700: 0 0 0;
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Card / elevated surface — slightly above the page background. */
+  --white: 29 29 29;
+
+  --slate-50: 23 23 23; /* page background */
+  --slate-100: 38 38 38;
+  --slate-200: 46 46 46; /* borders */
+  --slate-300: 64 64 64;
+  --slate-400: 115 115 115;
+  --slate-500: 143 143 143; /* secondary text */
+  --slate-600: 168 168 168;
+  --slate-700: 200 200 200;
+  --slate-800: 229 229 229;
+  --slate-900: 245 245 245; /* primary text */
+  --slate-950: 250 250 250;
+
+  /* Ink accent: near-white in dark mode (primary buttons read light-on-dark). */
+  --brand-50: 38 38 38;
+  --brand-100: 51 51 51;
+  --brand-500: 200 200 200;
+  --brand-600: 240 240 240;
+  --brand-700: 255 255 255;
+}
+
+/* Keep the focus-ring offset matching the surface in both themes. */
+*,
+::before,
+::after {
+  --tw-ring-offset-color: rgb(var(--white));
 }
 
 html,

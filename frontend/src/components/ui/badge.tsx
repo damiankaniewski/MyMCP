@@ -3,12 +3,14 @@ import { cn } from "@/lib/utils";
 
 type Tone = "neutral" | "green" | "red" | "indigo" | "amber";
 
+// Monochrome only: differentiate by weight (solid vs light vs outlined),
+// never by hue.
 const tones: Record<Tone, string> = {
-  neutral: "bg-slate-100 text-slate-700",
-  green: "bg-green-100 text-green-700",
-  red: "bg-red-100 text-red-700",
-  indigo: "bg-brand-100 text-brand-700",
-  amber: "bg-amber-100 text-amber-700",
+  neutral: "bg-slate-100 text-slate-600",
+  green: "bg-slate-900 text-white",
+  red: "border border-slate-900 text-slate-900",
+  indigo: "bg-slate-200 text-slate-800",
+  amber: "border border-slate-400 text-slate-600",
 };
 
 export function Badge({

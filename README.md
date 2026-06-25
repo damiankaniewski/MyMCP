@@ -55,8 +55,8 @@ Everything runs locally. No accounts, no cloud, no SaaS — your tools and secre
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/mymcp.git
-cd mymcp
+git clone https://github.com/damiankaniewski/MyMCP.git
+cd MyMCP
 ```
 
 ### 2. Run the launcher

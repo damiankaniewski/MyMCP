@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Plug, Wifi } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { api, type IntegrationInput } from "@/lib/api";
 import type { Integration, IntegrationType } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -86,7 +86,7 @@ export default function Integrations() {
     const res = await api.testIntegration(id);
     setTestResult((r) => ({
       ...r,
-      [id]: (res.ok ? "✅ " : "⚠️ ") + res.message,
+      [id]: (res.ok ? "OK — " : "Failed — ") + res.message,
     }));
   }
 
@@ -101,7 +101,7 @@ export default function Integrations() {
         </div>
         {!form && (
           <Button onClick={() => setForm(emptyForm("jira"))}>
-            <Plus className="h-4 w-4" /> Add integration
+            <Icon name="plus" className="text-sm" /> Add integration
           </Button>
         )}
       </header>
@@ -175,8 +175,8 @@ export default function Integrations() {
             <Card key={it.id}>
               <CardContent className="flex items-center justify-between gap-4 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
-                    <Plug className="h-5 w-5" />
+                  <div className="flex h-10 w-10 items-center justify-center bg-slate-100 text-slate-900">
+                    <Icon name="plug" className="text-base" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 font-semibold">
@@ -193,10 +193,10 @@ export default function Integrations() {
                 </div>
                 <div className="flex gap-1">
                   <Button variant="outline" size="sm" onClick={() => test(it.id)}>
-                    <Wifi className="h-4 w-4" /> Test
+                    <Icon name="wifi" className="text-sm" /> Test
                   </Button>
                   <Button variant="ghost" size="sm" onClick={() => remove(it.id)}>
-                    <Trash2 className="h-4 w-4 text-red-500" />
+                    <Icon name="trash" className="text-sm text-slate-500" />
                   </Button>
                 </div>
               </CardContent>

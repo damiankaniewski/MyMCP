@@ -28,7 +28,7 @@ export async function testServer(): Promise<TestResult> {
     args: [SERVER_FILE],
     cwd: GENERATED_DIR,
   });
-  const client = new Client({ name: "mcp-generator-health", version: "1.0.0" });
+  const client = new Client({ name: "mymcp-health", version: "1.0.0" });
 
   try {
     await client.connect(transport);
