@@ -46,6 +46,10 @@ Everything runs locally. No accounts, no cloud, no SaaS — your tools and secre
 - **Local and private by design.** No sign-up, no telemetry, no cloud. Secrets stay on your machine.
 - **One command to launch.** `start.bat` / `start.sh` installs everything, boots the server and UI, and opens your browser.
 
+## Presentation
+
+https://github.com/user-attachments/assets/aa10356a-446b-44bc-9ba0-1c5ab56ba132
+
 ---
 
 ## Quick Start
