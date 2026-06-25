@@ -50,7 +50,7 @@ export default function ServerManager() {
       </header>
 
       {/* How it works — clears up the "why isn't it running?" confusion */}
-      <div className="flex gap-3 border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+      <div className="flex gap-3 rounded-md border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
         <Icon name="circle-info" className="mt-0.5 text-base text-slate-900" />
         <div>
           <p className="font-medium text-slate-900">
@@ -101,7 +101,7 @@ export default function ServerManager() {
           {test && (
             <div
               className={
-                "border px-4 py-3 text-sm " +
+                "rounded-md border px-4 py-3 text-sm " +
                 (test.ok
                   ? "border-slate-300 bg-slate-50 text-slate-900"
                   : "border-slate-900 bg-slate-50 text-slate-900")

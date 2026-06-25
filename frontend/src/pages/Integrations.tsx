@@ -175,7 +175,7 @@ export default function Integrations() {
             <Card key={it.id}>
               <CardContent className="flex items-center justify-between gap-4 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center bg-slate-100 text-slate-900">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-slate-100 text-slate-900">
                     <Icon name="plug" className="text-base" />
                   </div>
                   <div>

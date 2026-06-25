@@ -22,7 +22,7 @@ function StatCard({
   return (
     <Card>
       <CardContent className="flex items-center gap-4 py-5">
-        <div className="flex h-11 w-11 items-center justify-center bg-slate-100 text-slate-900">
+        <div className="flex h-11 w-11 items-center justify-center rounded-md bg-slate-100 text-slate-900">
           <Icon name={icon} className="text-base" />
         </div>
         <div>
@@ -124,7 +124,7 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={() => setEditingMeta(true)}
-                className="mt-2 p-1.5 text-slate-400 opacity-0 transition-opacity hover:bg-slate-100 group-hover:opacity-100"
+                className="mt-2 rounded p-1.5 text-slate-400 opacity-0 transition-opacity hover:bg-slate-100 group-hover:opacity-100"
                 title="Edit project"
               >
                 <Icon name="pen" className="text-sm" />

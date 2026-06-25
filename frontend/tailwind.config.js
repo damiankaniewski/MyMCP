@@ -18,17 +18,17 @@ export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
-    // Everything is square — no rounded corners anywhere.
+    // Subtle, near-square corners — just a hint of softening.
     borderRadius: {
       none: "0",
-      sm: "0",
-      DEFAULT: "0",
-      md: "0",
-      lg: "0",
-      xl: "0",
-      "2xl": "0",
-      "3xl": "0",
-      full: "0",
+      sm: "0.125rem", // 2px
+      DEFAULT: "0.1875rem", // 3px
+      md: "0.25rem", // 4px
+      lg: "0.3125rem", // 5px
+      xl: "0.375rem", // 6px
+      "2xl": "0.5rem", // 8px
+      "3xl": "0.625rem", // 10px
+      full: "9999px",
     },
     extend: {
       colors: {

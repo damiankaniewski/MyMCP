@@ -104,7 +104,7 @@ export default function ExportWizard() {
                   {result && (
                     <div
                       className={cn(
-                        "flex items-start gap-2 border px-3 py-2 text-xs",
+                        "flex items-start gap-2 rounded-md border px-3 py-2 text-xs",
                         result.ok
                           ? "border-slate-300 bg-slate-50 text-slate-900"
                           : "border-slate-900 bg-slate-50 text-slate-900"
@@ -141,7 +141,7 @@ export default function ExportWizard() {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={cn(
-              "px-4 py-2 text-sm font-medium transition-colors",
+              "rounded-md px-4 py-2 text-sm font-medium transition-colors",
               tab === t.key
                 ? "bg-brand-600 text-white"
                 : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
@@ -158,7 +158,7 @@ export default function ExportWizard() {
             {TABS.find((t) => t.key === tab)?.hint}
           </p>
           <div className="relative">
-            <pre className="overflow-auto border border-slate-900 bg-slate-900 p-4 text-xs text-slate-100">
+            <pre className="overflow-auto rounded-md border border-slate-900 bg-slate-900 p-4 text-xs text-slate-100">
               {snippet}
             </pre>
             <Button

@@ -23,7 +23,7 @@ function Tooltip({ text }: { text: string }) {
   return (
     <span className="group relative inline-flex">
       <Icon name="circle-info" className="cursor-help text-sm text-slate-400" />
-      <span className="pointer-events-none absolute left-1/2 top-6 z-10 w-64 -translate-x-1/2 bg-slate-900 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+      <span className="pointer-events-none absolute left-1/2 top-6 z-10 w-64 -translate-x-1/2 rounded-md bg-slate-900 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
         {text}
       </span>
     </span>
@@ -128,7 +128,7 @@ export default function ToolWizard() {
           <div key={label} className="flex flex-1 items-center gap-2">
             <div
               className={cn(
-                "flex h-8 w-8 flex-shrink-0 items-center justify-center text-sm font-semibold",
+                "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md text-sm font-semibold",
                 i < step
                   ? "bg-brand-600 text-white"
                   : i === step
@@ -287,7 +287,7 @@ export default function ToolWizard() {
           )}
 
           {error && (
-            <div className="border border-slate-900 bg-slate-50 px-4 py-3 text-sm text-slate-900">
+            <div className="rounded-md border border-slate-900 bg-slate-50 px-4 py-3 text-sm text-slate-900">
               {error}
             </div>
           )}
@@ -332,7 +332,7 @@ function ExecChoice({
     <button
       onClick={onClick}
       className={cn(
-        "flex flex-1 flex-col items-start gap-2 border p-4 text-left transition-colors",
+        "flex flex-1 flex-col items-start gap-2 rounded-md border p-4 text-left transition-colors",
         active
           ? "border-slate-900 bg-slate-900 text-white"
           : "border-slate-200 hover:bg-slate-50"

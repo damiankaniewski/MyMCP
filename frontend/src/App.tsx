@@ -20,7 +20,7 @@ function Sidebar() {
   return (
     <aside className="flex w-64 flex-shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center gap-2 px-6 py-6">
-        <div className="flex h-9 w-9 items-center justify-center bg-brand-600 text-white">
+        <div className="flex h-9 w-9 items-center justify-center rounded-md bg-brand-600 text-white">
           <Icon name="cubes" className="text-base" />
         </div>
         <span className="text-lg font-semibold tracking-tight">MyMCP</span>
@@ -33,7 +33,7 @@ function Sidebar() {
             end={end}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
                 isActive
                   ? "bg-brand-600 text-white"
                   : "text-slate-600 hover:bg-slate-100"
