@@ -91,7 +91,6 @@ MyMCP provides a small set of focused screens:
 | **Dashboard**     | See your project, tools, and MCP status. Import / export `project.json`.    |
 | **New tool**      | A step-by-step wizard: name, AI description, input fields, action.          |
 | **Integrations**  | Connect Jira, GitHub, Slack, Notion, or any REST API (with secrets).        |
-| **MCP Server**    | Build, start, stop, and restart your generated server. View logs.           |
 | **Connect to AI** | Copy ready-made config, or auto-connect to Claude Desktop, Cursor, VS Code. |
 
 ### Tool actions

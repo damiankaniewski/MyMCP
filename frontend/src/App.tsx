@@ -5,14 +5,12 @@ import { cn } from "@/lib/utils";
 import Dashboard from "@/pages/Dashboard";
 import ToolWizard from "@/pages/ToolWizard";
 import Integrations from "@/pages/Integrations";
-import ServerManager from "@/pages/ServerManager";
 import ExportWizard from "@/pages/ExportWizard";
 
 const nav = [
   { to: "/", label: "Dashboard", icon: "gauge-high", end: true },
   { to: "/tools/new", label: "New tool", icon: "wrench" },
   { to: "/integrations", label: "Integrations", icon: "plug" },
-  { to: "/server", label: "MCP Server", icon: "server" },
   { to: "/export", label: "Connect to AI", icon: "share-nodes" },
 ];
 
@@ -45,9 +43,16 @@ function Sidebar() {
           </NavLink>
         ))}
       </nav>
-      <div className="mt-auto px-6 py-6 text-xs text-slate-400">
-        Build your own AI tools — no code required.
-      </div>
+      <a
+        href="https://github.com/damiankaniewski/MyMCP"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-auto mx-3 mb-4 flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+      >
+        <Icon name="github" brand className="w-5 text-center text-base" />
+        <span>Star on GitHub</span>
+        <Icon name="arrow-up-right-from-square" className="ml-auto text-xs text-slate-400" />
+      </a>
     </aside>
   );
 }
@@ -67,7 +72,6 @@ export default function App() {
               <Route path="/tools/new" element={<ToolWizard />} />
               <Route path="/tools/:id" element={<ToolWizard />} />
               <Route path="/integrations" element={<Integrations />} />
-              <Route path="/server" element={<ServerManager />} />
               <Route path="/export" element={<ExportWizard />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

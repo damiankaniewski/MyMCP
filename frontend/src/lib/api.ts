@@ -2,7 +2,6 @@ import type {
   Integration,
   Project,
   ServerInfo,
-  ServerTestResult,
   ToolDefinition,
 } from "@/types";
 
@@ -70,10 +69,8 @@ export const api = {
       { method: "POST" }
     ),
 
-  // Server
+  // Server (status only; the server.mjs is regenerated automatically on demand)
   getServerInfo: () => request<ServerInfo>("/server/info"),
-  generateServer: () => request<{ ok: boolean }>("/server/generate", { method: "POST" }),
-  testServer: () => request<ServerTestResult>("/server/test", { method: "POST" }),
 
   // Export
   getExportConfigs: () =>

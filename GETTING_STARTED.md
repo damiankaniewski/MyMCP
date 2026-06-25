@@ -16,12 +16,15 @@ start.bat
 ./start.sh
 ```
 
-The launcher will, on first run:
+One window does everything — no extra terminals pop up. The launcher will:
 
-1. Install all dependencies (root, backend, frontend).
+1. Install all dependencies on first run (root, backend, frontend).
 2. Start the backend on http://localhost:3001.
 3. Start the web UI on http://localhost:5173.
-4. Open your browser automatically.
+4. Wait until both are responding, then open your browser automatically.
+
+Backend and web-app logs stream into the same window, labelled `[backend]`
+and `[frontend]`. Press **Ctrl+C** (or close the window) to stop everything.
 
 > Requires [Node.js 18+](https://nodejs.org) (tested on Node 22).
 
@@ -32,7 +35,6 @@ The launcher will, on first run:
 | **Dashboard**   | See your project, tools and MCP status. Import/export `project.json`. |
 | **New tool**    | A step-by-step wizard: name → AI description → input fields → action. |
 | **Integrations**| Connect Jira, GitHub, Slack, Notion or any REST API (with secrets).  |
-| **MCP Server**  | Build, Start, Stop and Restart your generated server. View logs.     |
 | **Connect to AI**| Copy ready-made config for Claude Desktop, Cursor, VS Code, etc.    |
 
 ## Tool actions

@@ -78,7 +78,7 @@ function planFor(target: InstallTarget): TargetPlan {
       });
     }
 
-    return { label: "Claude (Desktop or CLI)", detected: files.length > 0, files };
+    return { label: "Claude (Desktop/CLI)", detected: files.length > 0, files };
   }
 
   if (target === "copilot") {

@@ -50,10 +50,3 @@ export interface ServerInfo {
   transport: string;
   connections: ConnectionStatus[];
 }
-
-export interface ServerTestResult {
-  ok: boolean;
-  toolCount: number;
-  tools: string[];
-  error?: string;
-}
