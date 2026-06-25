@@ -14,4 +14,3 @@ export const TEMPLATES_DIR = join(ROOT_DIR, "templates");
 export const ACTIVE_PROJECT_ID = "example-project";
 
 export const PORT = Number(process.env.PORT ?? 3001);
-export const MCP_PORT = Number(process.env.MCP_PORT ?? 3002);

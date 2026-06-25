@@ -207,12 +207,44 @@ The generated server links to the installed dependencies, so a connected client 
 
 ## Roadmap
 
-- [x] No-code Tool Wizard (HTTP, script, integration)
-- [x] One-click connect for Claude Desktop, Cursor, VS Code
-- [x] Project import / export
-- [ ] Expanded built-in integrations (Notion, Google Sheets)
-- [ ] Marketplace of ready-made tool templates
-- [ ] Python script execution out of the box
+### Shipped
+
+- [x] No-code Tool Wizard (HTTP, integration, JavaScript / Python script)
+- [x] One-click connect for Claude Desktop, Cursor, VS Code (Copilot)
+- [x] Project import / export (`project.json`)
+- [x] Connection presets with built-in auth (Jira, GitHub, Slack, Notion, REST)
+- [x] Single-command launcher (backend + web app in one window)
+
+### Next — three pillars
+
+**1. Integration presets with ready-made tools**
+Turn presets from connection-only into one-click packs that drop in working
+tools, so a new user gets value without building anything by hand.
+
+- [ ] Bundle starter tools per service (e.g. Jira: search / create / comment on
+      issues; GitHub: list / create issues, search repos)
+- [ ] Add **Google** (Sheets, Calendar, Gmail) and broaden existing packs
+- [ ] "Add pack" UX: pick a service, get its tools pre-wired to your credentials
+- [ ] Friendly per-field guidance (where to get the token, scopes needed)
+
+**2. HTTP transport with auth (self-hosting)**
+Run the generated server on a shared/corporate host instead of only locally
+over stdio.
+
+- [ ] Streamable-HTTP / SSE transport option in the generator (alongside stdio)
+- [ ] Auth on the HTTP endpoint (bearer / API key), configurable per server
+- [ ] Remote-URL connect snippets for Claude, Cursor, VS Code
+- [ ] Deploy notes (port, reverse proxy, secrets) for a corp server
+
+**3. Python scripting out of the box**
+Make Python tools reliable on any machine — no "install Python first".
+
+- [ ] Managed / detected Python runtime so scripts run with zero setup
+- [ ] Per-tool dependencies (pip) resolved automatically
+- [ ] Hardened execution wrapper (clean params in, structured result out)
+
+> Not planned: a public marketplace of community templates. The focus is
+> curated, first-party presets that work out of the box.
 
 Have an idea? [Open an issue](../../issues).
 

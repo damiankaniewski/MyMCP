@@ -63,11 +63,6 @@ export async function generateServer(
   const serverPath = join(GENERATED_DIR, "server.mjs");
   await writeFile(serverPath, header + runtime, "utf-8");
 
-  // The generated ESM server needs @modelcontextprotocol/sdk + zod at runtime.
-  // ESM ignores NODE_PATH, so we link generated/node_modules to the already
-  // installed backend/node_modules. This lets both our "Start" button and a
-  // directly-launched client (Claude Desktop, Cursor) run the server without
-  // the non-technical user ever running `npm install`.
   await ensureDependencyLink();
 
   // A package.json so the standalone export `npm install && node server.mjs` works.
