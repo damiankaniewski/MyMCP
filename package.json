@@ -1,0 +1,17 @@
+{
+  "name": "mymcp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MyMCP — build your own MCP servers without writing code.",
+  "scripts": {
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
+    "dev": "concurrently -n backend,frontend -c blue,magenta \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "start": "node scripts/start.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

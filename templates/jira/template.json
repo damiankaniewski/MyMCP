@@ -1,0 +1,22 @@
+{
+  "type": "jira",
+  "name": "Jira",
+  "label": "Atlassian Jira",
+  "baseUrlHint": "https://your-domain.atlassian.net",
+  "credentials": [
+    { "key": "email", "label": "Account email", "secret": false },
+    { "key": "apiToken", "label": "API token", "secret": true }
+  ],
+  "exampleTool": {
+    "name": "search_jira_issues",
+    "description": "Searches issues in Jira by JQL query.",
+    "inputSchema": [
+      { "name": "jql", "description": "JQL query, e.g. project = QA", "type": "text", "required": true }
+    ],
+    "executionType": "integration",
+    "executionConfig": {
+      "method": "GET",
+      "path": "/rest/api/3/search?jql={{jql}}"
+    }
+  }
+}

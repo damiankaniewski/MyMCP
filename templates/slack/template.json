@@ -1,0 +1,23 @@
+{
+  "type": "slack",
+  "name": "Slack",
+  "label": "Slack",
+  "baseUrlHint": "https://slack.com/api",
+  "credentials": [
+    { "key": "token", "label": "Bot token (xoxb-...)", "secret": true }
+  ],
+  "exampleTool": {
+    "name": "post_slack_message",
+    "description": "Posts a message to a Slack channel.",
+    "inputSchema": [
+      { "name": "channel", "description": "Channel ID", "type": "text", "required": true },
+      { "name": "text", "description": "Message text", "type": "text", "required": true }
+    ],
+    "executionType": "integration",
+    "executionConfig": {
+      "method": "POST",
+      "path": "/chat.postMessage",
+      "body": "{\"channel\":\"{{channel}}\",\"text\":\"{{text}}\"}"
+    }
+  }
+}

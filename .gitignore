@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.DS_Store
+*.log
+.env
+.env.local
+
+# Generated MCP server artifacts (regenerated from project.json)
+generated/*
+!generated/.gitkeep
+
+# Keep user projects but ignore local secrets
+projects/**/secrets.json

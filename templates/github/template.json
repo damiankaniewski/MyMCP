@@ -1,0 +1,21 @@
+{
+  "type": "github",
+  "name": "GitHub",
+  "label": "GitHub",
+  "baseUrlHint": "https://api.github.com",
+  "credentials": [
+    { "key": "token", "label": "Personal access token", "secret": true }
+  ],
+  "exampleTool": {
+    "name": "search_github_issues",
+    "description": "Searches issues and pull requests on GitHub by query.",
+    "inputSchema": [
+      { "name": "q", "description": "Search query, e.g. repo:owner/name is:open", "type": "text", "required": true }
+    ],
+    "executionType": "integration",
+    "executionConfig": {
+      "method": "GET",
+      "path": "/search/issues?q={{q}}"
+    }
+  }
+}

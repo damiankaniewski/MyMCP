@@ -1,0 +1,49 @@
+{
+  "name": "My MCP",
+  "description": "My basic MCP server",
+  "tools": [
+    {
+      "id": "demo0001",
+      "name": "get_public_holidays",
+      "description": "Returns public holidays for a given country and year. Useful when planning test schedules.",
+      "inputSchema": [
+        {
+          "name": "country",
+          "description": "Two-letter country code, e.g. PL, US, GB",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "year",
+          "description": "Year, e.g. 2026",
+          "type": "number",
+          "required": true
+        }
+      ],
+      "executionType": "http",
+      "executionConfig": {
+        "method": "GET",
+        "url": "https://date.nager.at/api/v3/PublicHolidays/{{year}}/{{country}}"
+      }
+    },
+    {
+      "id": "KI9gs1K7",
+      "name": "get_pokemon_details",
+      "description": "Tool used to retrieve details about Pokemon creature from Pokemon universe.",
+      "inputSchema": [
+        {
+          "name": "name",
+          "description": "Pokemon name",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "executionType": "http",
+      "executionConfig": {
+        "method": "GET",
+        "url": "https://pokeapi.co/api/v2/pokemon/{{name}}"
+      }
+    }
+  ],
+  "integrations": []
+}
