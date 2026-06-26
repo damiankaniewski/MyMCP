@@ -7,16 +7,49 @@
     { "key": "email", "label": "Account email", "secret": false },
     { "key": "apiToken", "label": "API token", "secret": true }
   ],
-  "exampleTool": {
-    "name": "search_jira_issues",
-    "description": "Searches issues in Jira by JQL query.",
-    "inputSchema": [
-      { "name": "jql", "description": "JQL query, e.g. project = QA", "type": "text", "required": true }
-    ],
-    "executionType": "integration",
-    "executionConfig": {
-      "method": "GET",
-      "path": "/rest/api/3/search?jql={{jql}}"
+  "starterTools": [
+    {
+      "name": "search_jira_issues",
+      "description": "Search Jira issues using a JQL query.",
+      "inputSchema": [
+        { "name": "jql", "description": "JQL query, e.g. project = QA AND status = Open", "type": "text", "required": true },
+        { "name": "maxResults", "description": "Maximum number of results to return (default 20)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/rest/api/3/search?jql={{jql}}&maxResults={{maxResults}}"
+      }
+    },
+    {
+      "name": "create_jira_issue",
+      "description": "Create a new issue in a Jira project.",
+      "inputSchema": [
+        { "name": "projectKey", "description": "Project key, e.g. PROJ", "type": "text", "required": true },
+        { "name": "summary", "description": "Issue title / summary", "type": "text", "required": true },
+        { "name": "description", "description": "Issue description (plain text)", "type": "text", "required": false },
+        { "name": "issueType", "description": "Issue type, e.g. Bug, Task, Story", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/rest/api/3/issue",
+        "body": "{\"fields\":{\"project\":{\"key\":\"{{projectKey}}\"},\"summary\":\"{{summary}}\",\"description\":{\"type\":\"doc\",\"version\":1,\"content\":[{\"type\":\"paragraph\",\"content\":[{\"type\":\"text\",\"text\":\"{{description}}\"}]}]},\"issuetype\":{\"name\":\"{{issueType}}\"}}}"
+      }
+    },
+    {
+      "name": "add_jira_comment",
+      "description": "Add a comment to an existing Jira issue.",
+      "inputSchema": [
+        { "name": "issueKey", "description": "Issue key, e.g. PROJ-42", "type": "text", "required": true },
+        { "name": "body", "description": "Comment text", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/rest/api/3/issue/{{issueKey}}/comment",
+        "body": "{\"body\":{\"type\":\"doc\",\"version\":1,\"content\":[{\"type\":\"paragraph\",\"content\":[{\"type\":\"text\",\"text\":\"{{body}}\"}]}]}}"
+      }
     }
-  }
+  ]
 }

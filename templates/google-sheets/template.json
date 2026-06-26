@@ -1,0 +1,54 @@
+{
+  "type": "google-sheets",
+  "name": "Google Sheets",
+  "label": "Google Sheets",
+  "baseUrlHint": "https://sheets.googleapis.com/v4",
+  "credentials": [
+    { "key": "accessToken", "label": "OAuth2 access token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "read_sheet_values",
+      "description": "Read cell values from a Google Sheets spreadsheet.",
+      "inputSchema": [
+        { "name": "spreadsheetId", "description": "Spreadsheet ID from the URL", "type": "text", "required": true },
+        { "name": "range", "description": "A1 notation range, e.g. Sheet1!A1:D10", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/spreadsheets/{{spreadsheetId}}/values/{{range}}"
+      }
+    },
+    {
+      "name": "append_sheet_values",
+      "description": "Append rows to a Google Sheets spreadsheet.",
+      "inputSchema": [
+        { "name": "spreadsheetId", "description": "Spreadsheet ID from the URL", "type": "text", "required": true },
+        { "name": "range", "description": "A1 notation range to append after, e.g. Sheet1!A1", "type": "text", "required": true },
+        { "name": "values", "description": "JSON array of rows, e.g. [[\"Alice\",30],[\"Bob\",25]]", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/spreadsheets/{{spreadsheetId}}/values/{{range}}:append?valueInputOption=USER_ENTERED",
+        "body": "{\"values\":{{values}}}"
+      }
+    },
+    {
+      "name": "update_sheet_values",
+      "description": "Overwrite a range of cells in a Google Sheets spreadsheet.",
+      "inputSchema": [
+        { "name": "spreadsheetId", "description": "Spreadsheet ID from the URL", "type": "text", "required": true },
+        { "name": "range", "description": "A1 notation range to overwrite, e.g. Sheet1!A2:C4", "type": "text", "required": true },
+        { "name": "values", "description": "JSON array of rows, e.g. [[\"Alice\",30],[\"Bob\",25]]", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "PUT",
+        "path": "/spreadsheets/{{spreadsheetId}}/values/{{range}}?valueInputOption=USER_ENTERED",
+        "body": "{\"values\":{{values}}}"
+      }
+    }
+  ]
+}

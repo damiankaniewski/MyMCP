@@ -1,0 +1,47 @@
+{
+  "type": "gmail",
+  "name": "Gmail",
+  "label": "Gmail",
+  "baseUrlHint": "https://gmail.googleapis.com/gmail/v1",
+  "credentials": [
+    { "key": "accessToken", "label": "OAuth2 access token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "search_gmail_messages",
+      "description": "Search Gmail messages using a query string.",
+      "inputSchema": [
+        { "name": "q", "description": "Gmail search query, e.g. from:alice@example.com is:unread", "type": "text", "required": true },
+        { "name": "maxResults", "description": "Maximum number of messages to return (default 10)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/users/me/messages?q={{q}}&maxResults={{maxResults}}"
+      }
+    },
+    {
+      "name": "get_gmail_message",
+      "description": "Retrieve a Gmail message by its ID.",
+      "inputSchema": [
+        { "name": "messageId", "description": "Message ID (from search results)", "type": "text", "required": true },
+        { "name": "format", "description": "Response format: full, metadata, or minimal", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/users/me/messages/{{messageId}}?format={{format}}"
+      }
+    },
+    {
+      "name": "list_gmail_labels",
+      "description": "List all labels (folders) in the Gmail account.",
+      "inputSchema": [],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/users/me/labels"
+      }
+    }
+  ]
+}

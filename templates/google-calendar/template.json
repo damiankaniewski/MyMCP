@@ -1,0 +1,56 @@
+{
+  "type": "google-calendar",
+  "name": "Google Calendar",
+  "label": "Google Calendar",
+  "baseUrlHint": "https://www.googleapis.com/calendar/v3",
+  "credentials": [
+    { "key": "accessToken", "label": "OAuth2 access token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "list_calendar_events",
+      "description": "List events from a Google Calendar within a time range.",
+      "inputSchema": [
+        { "name": "calendarId", "description": "Calendar ID (use 'primary' for the main calendar)", "type": "text", "required": true },
+        { "name": "timeMin", "description": "Start of range in RFC3339 format, e.g. 2026-01-01T00:00:00Z", "type": "text", "required": false },
+        { "name": "timeMax", "description": "End of range in RFC3339 format, e.g. 2026-12-31T23:59:59Z", "type": "text", "required": false },
+        { "name": "maxResults", "description": "Maximum number of events to return (default 10)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/calendars/{{calendarId}}/events?timeMin={{timeMin}}&timeMax={{timeMax}}&maxResults={{maxResults}}&orderBy=startTime&singleEvents=true"
+      }
+    },
+    {
+      "name": "create_calendar_event",
+      "description": "Create a new event in a Google Calendar.",
+      "inputSchema": [
+        { "name": "calendarId", "description": "Calendar ID (use 'primary' for the main calendar)", "type": "text", "required": true },
+        { "name": "summary", "description": "Event title", "type": "text", "required": true },
+        { "name": "start", "description": "Start time in RFC3339 format, e.g. 2026-07-01T10:00:00Z", "type": "text", "required": true },
+        { "name": "end", "description": "End time in RFC3339 format, e.g. 2026-07-01T11:00:00Z", "type": "text", "required": true },
+        { "name": "description", "description": "Event description (optional)", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/calendars/{{calendarId}}/events",
+        "body": "{\"summary\":\"{{summary}}\",\"description\":\"{{description}}\",\"start\":{\"dateTime\":\"{{start}}\"},\"end\":{\"dateTime\":\"{{end}}\"}}"
+      }
+    },
+    {
+      "name": "get_calendar_event",
+      "description": "Retrieve details of a specific Google Calendar event.",
+      "inputSchema": [
+        { "name": "calendarId", "description": "Calendar ID (use 'primary' for the main calendar)", "type": "text", "required": true },
+        { "name": "eventId", "description": "Event ID", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/calendars/{{calendarId}}/events/{{eventId}}"
+      }
+    }
+  ]
+}

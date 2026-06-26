@@ -69,6 +69,16 @@ export const api = {
       { method: "POST" }
     ),
 
+  // Templates
+  getTemplates: () => request<ServiceTemplate[]>("/templates"),
+
+  // Tools – bulk
+  createToolsBulk: (tools: ToolInput[]) =>
+    request<ToolDefinition[]>("/tools/bulk", {
+      method: "POST",
+      body: JSON.stringify(tools),
+    }),
+
   // Server (status only; the server.mjs is regenerated automatically on demand)
   getServerInfo: () => request<ServerInfo>("/server/info"),
 
@@ -82,6 +92,23 @@ export const api = {
   installToClient: (target: string) =>
     request<InstallResult>(`/export/install/${target}`, { method: "POST" }),
 };
+
+export interface StarterTool {
+  name: string;
+  description: string;
+  inputSchema: import("@/types").InputParameter[];
+  executionType: import("@/types").ExecutionType;
+  executionConfig: Record<string, unknown>;
+}
+
+export interface ServiceTemplate {
+  type: import("@/types").IntegrationType;
+  name: string;
+  label: string;
+  baseUrlHint: string;
+  credentials: { key: string; label: string; secret?: boolean }[];
+  starterTools: StarterTool[];
+}
 
 export interface InstallTargetStatus {
   target: "claude" | "copilot" | "cursor";

@@ -40,6 +40,25 @@ toolsRouter.put("/:id", async (req, res) => {
   res.json(updated);
 });
 
+toolsRouter.post("/bulk", async (req, res) => {
+  const items = req.body;
+  if (!Array.isArray(items)) {
+    return res.status(400).json({ error: "Body must be an array of tools" });
+  }
+  const created: ToolDefinition[] = [];
+  for (const item of items) {
+    const parsed = toolInputSchema.safeParse(item);
+    if (!parsed.success) {
+      return res.status(400).json({ error: parsed.error.flatten() });
+    }
+    created.push({ id: nanoid(8), ...parsed.data });
+  }
+  await store.update((p) => {
+    p.tools.push(...created);
+  });
+  res.status(201).json(created);
+});
+
 toolsRouter.delete("/:id", async (req, res) => {
   let removed = false;
   await store.update((p) => {

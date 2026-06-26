@@ -43,7 +43,198 @@
         "method": "GET",
         "url": "https://pokeapi.co/api/v2/pokemon/{{name}}"
       }
+    },
+    {
+      "id": "D8VM18km",
+      "name": "search_jira_issues",
+      "description": "Search Jira issues using a JQL query.",
+      "inputSchema": [
+        {
+          "name": "jql",
+          "description": "JQL query, e.g. project = QA AND status = Open",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "maxResults",
+          "description": "Maximum number of results to return (default 20)",
+          "type": "number",
+          "required": false
+        }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "integrationId": "",
+        "method": "GET",
+        "path": ""
+      }
+    },
+    {
+      "id": "GqUrydRe",
+      "name": "create_jira_issue",
+      "description": "Create a new issue in a Jira project.",
+      "inputSchema": [
+        {
+          "name": "projectKey",
+          "description": "Project key, e.g. PROJ",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "summary",
+          "description": "Issue title / summary",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "description",
+          "description": "Issue description (plain text)",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "issueType",
+          "description": "Issue type, e.g. Bug, Task, Story",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/rest/api/3/issue",
+        "body": "{\"fields\":{\"project\":{\"key\":\"{{projectKey}}\"},\"summary\":\"{{summary}}\",\"description\":{\"type\":\"doc\",\"version\":1,\"content\":[{\"type\":\"paragraph\",\"content\":[{\"type\":\"text\",\"text\":\"{{description}}\"}]}]},\"issuetype\":{\"name\":\"{{issueType}}\"}}}",
+        "integrationId": "mGIY94Ah"
+      }
+    },
+    {
+      "id": "laSD_VAf",
+      "name": "add_jira_comment",
+      "description": "Add a comment to an existing Jira issue.",
+      "inputSchema": [
+        {
+          "name": "issueKey",
+          "description": "Issue key, e.g. PROJ-42",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "body",
+          "description": "Comment text",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/rest/api/3/issue/{{issueKey}}/comment",
+        "body": "{\"body\":{\"type\":\"doc\",\"version\":1,\"content\":[{\"type\":\"paragraph\",\"content\":[{\"type\":\"text\",\"text\":\"{{body}}\"}]}]}}",
+        "integrationId": "mGIY94Ah"
+      }
+    },
+    {
+      "id": "VAuTs_E4",
+      "name": "list_github_issues",
+      "description": "List issues in a GitHub repository.",
+      "inputSchema": [
+        {
+          "name": "owner",
+          "description": "Repository owner (user or org)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "repo",
+          "description": "Repository name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "state",
+          "description": "Filter by state: open, closed, or all",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/repos/{{owner}}/{{repo}}/issues?state={{state}}&per_page=30",
+        "integrationId": "x1fNetDO"
+      }
+    },
+    {
+      "id": "u8XbYQHC",
+      "name": "create_github_issue",
+      "description": "Create a new issue in a GitHub repository.",
+      "inputSchema": [
+        {
+          "name": "owner",
+          "description": "Repository owner",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "repo",
+          "description": "Repository name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "title",
+          "description": "Issue title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "body",
+          "description": "Issue body (Markdown supported)",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/repos/{{owner}}/{{repo}}/issues",
+        "body": "{\"title\":\"{{title}}\",\"body\":\"{{body}}\"}",
+        "integrationId": "x1fNetDO"
+      }
+    },
+    {
+      "id": "V5lSUu9Z",
+      "name": "search_github_repos",
+      "description": "Search GitHub repositories by keyword or advanced filter.",
+      "inputSchema": [
+        {
+          "name": "q",
+          "description": "Search query, e.g. language:typescript stars:>500",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "sort",
+          "description": "Sort by: stars, forks, or updated",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/search/repositories?q={{q}}&sort={{sort}}&per_page=20",
+        "integrationId": "x1fNetDO"
+      }
     }
   ],
-  "integrations": []
+  "integrations": [
+    {
+      "id": "x1fNetDO",
+      "type": "github",
+      "name": "GitHub",
+      "baseUrl": "https://api.github.com",
+      "credentials": {}
+    }
+  ]
 }

@@ -19,7 +19,15 @@ export interface ToolDefinition {
   executionConfig: Record<string, unknown>;
 }
 
-export type IntegrationType = "jira" | "github" | "slack" | "notion" | "rest";
+export type IntegrationType =
+  | "jira"
+  | "github"
+  | "slack"
+  | "notion"
+  | "google-sheets"
+  | "google-calendar"
+  | "gmail"
+  | "rest";
 
 export interface Integration {
   id: string;

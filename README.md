@@ -39,7 +39,7 @@ Everything runs locally. No accounts, no cloud, no SaaS — your tools and secre
 
 - **No-code Tool Wizard.** Create AI tools step by step: name, AI-facing description, input fields, action. The JSON Schema is generated for you.
 - **Three ways to power a tool.** Call any REST API, reuse a saved integration, or run a JavaScript / Python script for advanced cases.
-- **Built-in integrations.** Jira, GitHub, Slack, Notion, and generic REST, with stored credentials and connection testing.
+- **Built-in integrations.** Jira, GitHub, Slack, Notion, Google Sheets, Google Calendar, Gmail, and generic REST — with stored credentials and connection testing.
 - **One-click connect.** MyMCP detects installed clients (Claude Desktop, Cursor, VS Code / Copilot) and writes the config for you. Existing servers are preserved and the previous config is backed up first.
 - **Manual export.** Copy ready-to-paste config snippets for any MCP client.
 - **Git-friendly projects.** Your entire setup is a single `project.json` file you can version, share, and import.
@@ -94,7 +94,7 @@ MyMCP provides a small set of focused screens:
 | ----------------- | -------------------------------------------------------------------------- |
 | **Dashboard**     | See your project, tools, and MCP status. Import / export `project.json`.    |
 | **New tool**      | A step-by-step wizard: name, AI description, input fields, action.          |
-| **Integrations**  | Connect Jira, GitHub, Slack, Notion, or any REST API (with secrets).        |
+| **Integrations**  | Connect Jira, GitHub, Slack, Notion, Google Sheets, Calendar, Gmail, or any REST API. One click imports a ready-made starter tool pack for each service. |
 | **Connect to AI** | Copy ready-made config, or auto-connect to Claude Desktop, Cursor, VS Code. |
 
 ### Tool actions
@@ -167,7 +167,7 @@ mymcp/
 │       ├── routes/      project · tools · integrations · server · export
 │       └── storage/     project persistence
 ├── projects/        your project.json lives here (Git-friendly)
-├── templates/       starter integration templates (Jira, GitHub, Slack)
+├── templates/       starter tool packs per service (Jira, GitHub, Slack, Notion, Google Sheets, Calendar, Gmail)
 ├── generated/       the compiled MCP server artifact (generated/server.mjs)
 ├── start.bat        one-click launcher (Windows)
 └── start.sh         one-click launcher (macOS / Linux)
@@ -218,17 +218,14 @@ The generated server links to the installed dependencies, so a connected client 
 - [x] Project import / export (`project.json`)
 - [x] Connection presets with built-in auth (Jira, GitHub, Slack, Notion, REST)
 - [x] Single-command launcher (backend + web app in one window)
+- [x] Starter tool packs per service — Jira (search / create / comment), GitHub (list / create issues, search repos), Slack (post / list channels / history), Notion (search / get / create page)
+- [x] Google integrations: Sheets (read / append / update), Calendar (list / create / get events), Gmail (search / get messages / list labels)
+- [x] "Add starter tools" UX: pre-checked checkbox when adding an integration; tools are pre-wired to your credentials automatically
 
-### Next — three pillars
+### Next — two pillars
 
-**1. Integration presets with ready-made tools**
-Turn presets from connection-only into one-click packs that drop in working
-tools, so a new user gets value without building anything by hand.
+**1. Integration polish**
 
-- [ ] Bundle starter tools per service (e.g. Jira: search / create / comment on
-      issues; GitHub: list / create issues, search repos)
-- [ ] Add **Google** (Sheets, Calendar, Gmail) and broaden existing packs
-- [ ] "Add pack" UX: pick a service, get its tools pre-wired to your credentials
 - [ ] Friendly per-field guidance (where to get the token, scopes needed)
 
 **2. HTTP transport with auth (self-hosting)**

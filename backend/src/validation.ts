@@ -20,7 +20,7 @@ export const toolInputSchema = z.object({
 });
 
 export const integrationInputSchema = z.object({
-  type: z.enum(["jira", "github", "slack", "notion", "rest"]),
+  type: z.enum(["jira", "github", "slack", "notion", "google-sheets", "google-calendar", "gmail", "rest"]),
   name: z.string().min(1, "Name is required"),
   baseUrl: z.string().optional(),
   credentials: z.record(z.string()).default({}),

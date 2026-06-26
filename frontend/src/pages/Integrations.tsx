@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui/icon";
-import { api, type IntegrationInput } from "@/lib/api";
+import { api, type IntegrationInput, type ServiceTemplate } from "@/lib/api";
 import type { Integration, IntegrationType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -39,8 +39,23 @@ const PRESETS: Record<
   },
   notion: {
     label: "Notion",
-    baseUrl: "https://api.notion.com",
+    baseUrl: "https://api.notion.com/v1",
     creds: [{ key: "token", label: "Integration token", secret: true }],
+  },
+  "google-sheets": {
+    label: "Google Sheets",
+    baseUrl: "https://sheets.googleapis.com/v4",
+    creds: [{ key: "accessToken", label: "OAuth2 access token", secret: true }],
+  },
+  "google-calendar": {
+    label: "Google Calendar",
+    baseUrl: "https://www.googleapis.com/calendar/v3",
+    creds: [{ key: "accessToken", label: "OAuth2 access token", secret: true }],
+  },
+  gmail: {
+    label: "Gmail",
+    baseUrl: "https://gmail.googleapis.com/gmail/v1",
+    creds: [{ key: "accessToken", label: "OAuth2 access token", secret: true }],
   },
   rest: {
     label: "Custom REST API",
@@ -58,19 +73,39 @@ const emptyForm = (type: IntegrationType): IntegrationInput => ({
 
 export default function Integrations() {
   const [items, setItems] = useState<Integration[]>([]);
+  const [templates, setTemplates] = useState<ServiceTemplate[]>([]);
   const [form, setForm] = useState<IntegrationInput | null>(null);
+  const [addStarterTools, setAddStarterTools] = useState(true);
   const [testResult, setTestResult] = useState<Record<string, string>>({});
+  const [importingId, setImportingId] = useState<string | null>(null);
+  const [importResult, setImportResult] = useState<Record<string, string>>({});
 
   async function refresh() {
     setItems(await api.getIntegrations());
   }
+
   useEffect(() => {
     refresh();
+    api.getTemplates().then(setTemplates);
   }, []);
 
   async function save() {
     if (!form) return;
-    await api.createIntegration(form);
+    const integration = await api.createIntegration(form);
+    if (addStarterTools) {
+      const template = templates.find((t) => t.type === form.type);
+      if (template?.starterTools?.length) {
+        const tools = template.starterTools.map((t) => ({
+          ...t,
+          executionConfig: { ...t.executionConfig, integrationId: integration.id },
+        }));
+        await api.createToolsBulk(tools);
+        setImportResult((r) => ({
+          ...r,
+          [integration.id]: `Added ${tools.length} starter tool${tools.length !== 1 ? "s" : ""}`,
+        }));
+      }
+    }
     setForm(null);
     refresh();
   }
@@ -90,6 +125,32 @@ export default function Integrations() {
     }));
   }
 
+  async function importStarterTools(integration: Integration) {
+    const template = templates.find((t) => t.type === integration.type);
+    if (!template?.starterTools?.length) return;
+
+    setImportingId(integration.id);
+    try {
+      const tools = template.starterTools.map((t) => ({
+        ...t,
+        executionConfig: { ...t.executionConfig, integrationId: integration.id },
+      }));
+      const created = await api.createToolsBulk(tools);
+      setImportResult((r) => ({
+        ...r,
+        [integration.id]: `Added ${created.length} tool${created.length !== 1 ? "s" : ""}`,
+      }));
+    } catch {
+      setImportResult((r) => ({ ...r, [integration.id]: "Import failed" }));
+    } finally {
+      setImportingId(null);
+    }
+  }
+
+  function starterCount(type: IntegrationType) {
+    return templates.find((t) => t.type === type)?.starterTools?.length ?? 0;
+  }
+
   return (
     <div className="space-y-8">
       <header className="flex items-center justify-between">
@@ -100,7 +161,7 @@ export default function Integrations() {
           </p>
         </div>
         {!form && (
-          <Button onClick={() => setForm(emptyForm("jira"))}>
+          <Button onClick={() => { setForm(emptyForm("jira")); setAddStarterTools(true); }}>
             <Icon name="plus" className="text-sm" /> Add integration
           </Button>
         )}
@@ -114,7 +175,7 @@ export default function Integrations() {
                 <Label>Service</Label>
                 <Select
                   value={form.type}
-                  onChange={(e) => setForm(emptyForm(e.target.value as IntegrationType))}
+                  onChange={(e) => { setForm(emptyForm(e.target.value as IntegrationType)); setAddStarterTools(true); }}
                 >
                   {(Object.keys(PRESETS) as IntegrationType[]).map((t) => (
                     <option key={t} value={t}>
@@ -153,9 +214,20 @@ export default function Integrations() {
                 />
               </div>
             ))}
+            {starterCount(form.type) > 0 && (
+              <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={addStarterTools}
+                  onChange={(e) => setAddStarterTools(e.target.checked)}
+                  className="rounded border-slate-300"
+                />
+                Also add {starterCount(form.type)} starter tool{starterCount(form.type) !== 1 ? "s" : ""} for {PRESETS[form.type].label}
+              </label>
+            )}
             <div className="flex gap-2">
               <Button onClick={save}>Save integration</Button>
-              <Button variant="ghost" onClick={() => setForm(null)}>
+              <Button variant="ghost" onClick={() => { setForm(null); setAddStarterTools(true); }}>
                 Cancel
               </Button>
             </div>
@@ -171,37 +243,57 @@ export default function Integrations() {
         </Card>
       ) : (
         <div className="space-y-3">
-          {items.map((it) => (
-            <Card key={it.id}>
-              <CardContent className="flex items-center justify-between gap-4 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-slate-100 text-slate-900">
-                    <Icon name="plug" className="text-base" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 font-semibold">
-                      {it.name}
-                      <Badge tone="indigo">{it.type}</Badge>
+          {items.map((it) => {
+            const count = starterCount(it.type);
+            const result = importResult[it.id];
+            return (
+              <Card key={it.id}>
+                <CardContent className="flex items-center justify-between gap-4 py-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-md bg-slate-100 text-slate-900">
+                      <Icon name="plug" className="text-base" />
                     </div>
-                    <div className="text-sm text-slate-500">{it.baseUrl}</div>
-                    {testResult[it.id] && (
-                      <div className="mt-1 text-xs text-slate-600">
-                        {testResult[it.id]}
+                    <div>
+                      <div className="flex items-center gap-2 font-semibold">
+                        {it.name}
+                        <Badge tone="indigo">{it.type}</Badge>
                       </div>
-                    )}
+                      <div className="text-sm text-slate-500">{it.baseUrl}</div>
+                      {testResult[it.id] && (
+                        <div className="mt-1 text-xs text-slate-600">
+                          {testResult[it.id]}
+                        </div>
+                      )}
+                      {result && (
+                        <div className="mt-1 text-xs text-green-600">{result}</div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="flex gap-1">
-                  <Button variant="outline" size="sm" onClick={() => test(it.id)}>
-                    <Icon name="wifi" className="text-sm" /> Test
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={() => remove(it.id)}>
-                    <Icon name="trash" className="text-sm text-slate-500" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  <div className="flex gap-1">
+                    {count > 0 && !result && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => importStarterTools(it)}
+                        disabled={importingId === it.id}
+                      >
+                        <Icon name="wand-magic-sparkles" className="text-sm" />
+                        {importingId === it.id
+                          ? "Adding…"
+                          : `Add ${count} starter tool${count !== 1 ? "s" : ""}`}
+                      </Button>
+                    )}
+                    <Button variant="outline" size="sm" onClick={() => test(it.id)}>
+                      <Icon name="wifi" className="text-sm" /> Test
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => remove(it.id)}>
+                      <Icon name="trash" className="text-sm text-slate-500" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>

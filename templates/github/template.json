@@ -6,16 +6,49 @@
   "credentials": [
     { "key": "token", "label": "Personal access token", "secret": true }
   ],
-  "exampleTool": {
-    "name": "search_github_issues",
-    "description": "Searches issues and pull requests on GitHub by query.",
-    "inputSchema": [
-      { "name": "q", "description": "Search query, e.g. repo:owner/name is:open", "type": "text", "required": true }
-    ],
-    "executionType": "integration",
-    "executionConfig": {
-      "method": "GET",
-      "path": "/search/issues?q={{q}}"
+  "starterTools": [
+    {
+      "name": "list_github_issues",
+      "description": "List issues in a GitHub repository.",
+      "inputSchema": [
+        { "name": "owner", "description": "Repository owner (user or org)", "type": "text", "required": true },
+        { "name": "repo", "description": "Repository name", "type": "text", "required": true },
+        { "name": "state", "description": "Filter by state: open, closed, or all", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/repos/{{owner}}/{{repo}}/issues?state={{state}}&per_page=30"
+      }
+    },
+    {
+      "name": "create_github_issue",
+      "description": "Create a new issue in a GitHub repository.",
+      "inputSchema": [
+        { "name": "owner", "description": "Repository owner", "type": "text", "required": true },
+        { "name": "repo", "description": "Repository name", "type": "text", "required": true },
+        { "name": "title", "description": "Issue title", "type": "text", "required": true },
+        { "name": "body", "description": "Issue body (Markdown supported)", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/repos/{{owner}}/{{repo}}/issues",
+        "body": "{\"title\":\"{{title}}\",\"body\":\"{{body}}\"}"
+      }
+    },
+    {
+      "name": "search_github_repos",
+      "description": "Search GitHub repositories by keyword or advanced filter.",
+      "inputSchema": [
+        { "name": "q", "description": "Search query, e.g. language:typescript stars:>500", "type": "text", "required": true },
+        { "name": "sort", "description": "Sort by: stars, forks, or updated", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/search/repositories?q={{q}}&sort={{sort}}&per_page=20"
+      }
     }
-  }
+  ]
 }

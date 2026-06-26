@@ -4,20 +4,47 @@
   "label": "Slack",
   "baseUrlHint": "https://slack.com/api",
   "credentials": [
-    { "key": "token", "label": "Bot token (xoxb-...)", "secret": true }
+    { "key": "token", "label": "Bot token (xoxb-…)", "secret": true }
   ],
-  "exampleTool": {
-    "name": "post_slack_message",
-    "description": "Posts a message to a Slack channel.",
-    "inputSchema": [
-      { "name": "channel", "description": "Channel ID", "type": "text", "required": true },
-      { "name": "text", "description": "Message text", "type": "text", "required": true }
-    ],
-    "executionType": "integration",
-    "executionConfig": {
-      "method": "POST",
-      "path": "/chat.postMessage",
-      "body": "{\"channel\":\"{{channel}}\",\"text\":\"{{text}}\"}"
+  "starterTools": [
+    {
+      "name": "post_slack_message",
+      "description": "Post a message to a Slack channel.",
+      "inputSchema": [
+        { "name": "channel", "description": "Channel ID or name, e.g. C012AB3CD or #general", "type": "text", "required": true },
+        { "name": "text", "description": "Message text (Slack mrkdwn supported)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/chat.postMessage",
+        "body": "{\"channel\":\"{{channel}}\",\"text\":\"{{text}}\"}"
+      }
+    },
+    {
+      "name": "list_slack_channels",
+      "description": "List public channels in the Slack workspace.",
+      "inputSchema": [
+        { "name": "limit", "description": "Maximum number of channels to return (default 100)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/conversations.list?limit={{limit}}&exclude_archived=true"
+      }
+    },
+    {
+      "name": "get_slack_channel_history",
+      "description": "Retrieve recent messages from a Slack channel.",
+      "inputSchema": [
+        { "name": "channel", "description": "Channel ID, e.g. C012AB3CD", "type": "text", "required": true },
+        { "name": "limit", "description": "Number of messages to fetch (default 20)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/conversations.history?channel={{channel}}&limit={{limit}}"
+      }
     }
-  }
+  ]
 }

@@ -102,6 +102,11 @@ async function runIntegration(config, params) {
       if (secrets.token) headers.Authorization = `Bearer ${secrets.token}`;
       if (integration.type === "notion") headers["Notion-Version"] = "2022-06-28";
       break;
+    case "google-sheets":
+    case "google-calendar":
+    case "gmail":
+      if (secrets.accessToken) headers.Authorization = `Bearer ${secrets.accessToken}`;
+      break;
     case "rest":
     default:
       if (secrets.apiKey) headers.Authorization = `Bearer ${secrets.apiKey}`;

@@ -1,0 +1,50 @@
+{
+  "type": "notion",
+  "name": "Notion",
+  "label": "Notion",
+  "baseUrlHint": "https://api.notion.com/v1",
+  "credentials": [
+    { "key": "token", "label": "Integration token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "search_notion",
+      "description": "Search pages and databases in Notion by text query.",
+      "inputSchema": [
+        { "name": "query", "description": "Text to search for across pages and databases", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/search",
+        "body": "{\"query\":\"{{query}}\"}"
+      }
+    },
+    {
+      "name": "get_notion_page",
+      "description": "Retrieve a Notion page by its ID.",
+      "inputSchema": [
+        { "name": "pageId", "description": "Page ID (32-char UUID, dashes optional)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/pages/{{pageId}}"
+      }
+    },
+    {
+      "name": "create_notion_page",
+      "description": "Create a new page inside a Notion database.",
+      "inputSchema": [
+        { "name": "databaseId", "description": "Parent database ID", "type": "text", "required": true },
+        { "name": "title", "description": "Page title", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/pages",
+        "body": "{\"parent\":{\"database_id\":\"{{databaseId}}\"},\"properties\":{\"title\":{\"title\":[{\"text\":{\"content\":\"{{title}}\"}}]}}}"
+      }
+    }
+  ]
+}
