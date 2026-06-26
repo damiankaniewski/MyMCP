@@ -48,7 +48,7 @@ Everything runs locally. No accounts, no cloud, no SaaS — your tools and secre
 
 ## Presentation
 
-https://github.com/user-attachments/assets/aa10356a-446b-44bc-9ba0-1c5ab56ba132
+![Demo](demo.gif)
 
 ---
 
