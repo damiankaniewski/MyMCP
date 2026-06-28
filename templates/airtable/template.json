@@ -1,0 +1,57 @@
+{
+  "type": "airtable",
+  "name": "Airtable",
+  "label": "Airtable",
+  "baseUrlHint": "https://api.airtable.com/v0",
+  "credentials": [
+    { "key": "apiKey", "label": "Personal access token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "list_airtable_records",
+      "description": "List records from an Airtable table.",
+      "inputSchema": [
+        { "name": "baseId", "description": "Airtable base ID (starts with app…)", "type": "text", "required": true },
+        { "name": "tableName", "description": "Table name or ID", "type": "text", "required": true },
+        { "name": "maxRecords", "description": "Maximum number of records to return (default 100)", "type": "number", "required": false },
+        { "name": "filterFormula", "description": "Airtable formula to filter records, e.g. {Status}='Active'", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/{{baseId}}/{{tableName}}?maxRecords={{maxRecords}}&filterByFormula={{filterFormula}}"
+      }
+    },
+    {
+      "name": "create_airtable_record",
+      "description": "Create a new record in an Airtable table.",
+      "inputSchema": [
+        { "name": "baseId", "description": "Airtable base ID (starts with app…)", "type": "text", "required": true },
+        { "name": "tableName", "description": "Table name or ID", "type": "text", "required": true },
+        { "name": "fields", "description": "JSON object of field values, e.g. {\"Name\":\"Alice\",\"Status\":\"Active\"}", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/{{baseId}}/{{tableName}}",
+        "body": "{\"fields\":{{fields}}}"
+      }
+    },
+    {
+      "name": "update_airtable_record",
+      "description": "Update fields on an existing Airtable record.",
+      "inputSchema": [
+        { "name": "baseId", "description": "Airtable base ID (starts with app…)", "type": "text", "required": true },
+        { "name": "tableName", "description": "Table name or ID", "type": "text", "required": true },
+        { "name": "recordId", "description": "Record ID (starts with rec…)", "type": "text", "required": true },
+        { "name": "fields", "description": "JSON object of fields to update, e.g. {\"Status\":\"Done\"}", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "PATCH",
+        "path": "/{{baseId}}/{{tableName}}/{{recordId}}",
+        "body": "{\"fields\":{{fields}}}"
+      }
+    }
+  ]
+}

@@ -27,6 +27,14 @@ export type IntegrationType =
   | "google-sheets"
   | "google-calendar"
   | "gmail"
+  | "linear"
+  | "confluence"
+  | "ms-teams"
+  | "airtable"
+  | "discord"
+  | "stripe"
+  | "hubspot"
+  | "zendesk"
   | "rest";
 
 export interface Integration {

@@ -1,0 +1,50 @@
+{
+  "type": "discord",
+  "name": "Discord",
+  "label": "Discord",
+  "baseUrlHint": "https://discord.com/api/v10",
+  "credentials": [
+    { "key": "botToken", "label": "Bot token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "send_discord_message",
+      "description": "Send a message to a Discord channel.",
+      "inputSchema": [
+        { "name": "channelId", "description": "Channel ID (enable Developer Mode in Discord to copy IDs)", "type": "text", "required": true },
+        { "name": "content", "description": "Message text (Markdown supported)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/channels/{{channelId}}/messages",
+        "body": "{\"content\":\"{{content}}\"}"
+      }
+    },
+    {
+      "name": "list_guild_channels",
+      "description": "List all channels in a Discord server (guild).",
+      "inputSchema": [
+        { "name": "guildId", "description": "Server (guild) ID", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/guilds/{{guildId}}/channels"
+      }
+    },
+    {
+      "name": "get_channel_messages",
+      "description": "Retrieve recent messages from a Discord channel.",
+      "inputSchema": [
+        { "name": "channelId", "description": "Channel ID", "type": "text", "required": true },
+        { "name": "limit", "description": "Number of messages to fetch (max 100, default 20)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/channels/{{channelId}}/messages?limit={{limit}}"
+      }
+    }
+  ]
+}

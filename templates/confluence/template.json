@@ -1,0 +1,52 @@
+{
+  "type": "confluence",
+  "name": "Confluence",
+  "label": "Atlassian Confluence",
+  "baseUrlHint": "https://your-domain.atlassian.net/wiki",
+  "credentials": [
+    { "key": "email", "label": "Account email", "secret": false },
+    { "key": "apiToken", "label": "API token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "search_confluence",
+      "description": "Search Confluence pages and blog posts using a CQL query.",
+      "inputSchema": [
+        { "name": "cql", "description": "CQL query, e.g. text ~ \"release notes\" AND space = DEV", "type": "text", "required": true },
+        { "name": "limit", "description": "Maximum number of results (default 20)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/rest/api/search?cql={{cql}}&limit={{limit}}&expand=content.space,content.version"
+      }
+    },
+    {
+      "name": "get_confluence_page",
+      "description": "Retrieve a Confluence page by its ID, including the rendered body.",
+      "inputSchema": [
+        { "name": "pageId", "description": "Confluence page ID (numeric)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/rest/api/content/{{pageId}}?expand=body.storage,version,space"
+      }
+    },
+    {
+      "name": "create_confluence_page",
+      "description": "Create a new Confluence page in a given space.",
+      "inputSchema": [
+        { "name": "spaceKey", "description": "Space key, e.g. DEV or DOCS", "type": "text", "required": true },
+        { "name": "title", "description": "Page title", "type": "text", "required": true },
+        { "name": "body", "description": "Page content in plain text or simple HTML", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/rest/api/content",
+        "body": "{\"type\":\"page\",\"title\":\"{{title}}\",\"space\":{\"key\":\"{{spaceKey}}\"},\"body\":{\"storage\":{\"value\":\"{{body}}\",\"representation\":\"storage\"}}}"
+      }
+    }
+  ]
+}

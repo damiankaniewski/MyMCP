@@ -1,0 +1,53 @@
+{
+  "type": "hubspot",
+  "name": "HubSpot",
+  "label": "HubSpot",
+  "baseUrlHint": "https://api.hubapi.com",
+  "credentials": [
+    { "key": "accessToken", "label": "Private app access token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "search_hubspot_contacts",
+      "description": "Search HubSpot contacts by email, name, or any property.",
+      "inputSchema": [
+        { "name": "query", "description": "Search query (matches across name, email, phone, company)", "type": "text", "required": true },
+        { "name": "limit", "description": "Maximum number of results (default 20)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/crm/v3/objects/contacts/search",
+        "body": "{\"query\":\"{{query}}\",\"limit\":{{limit}},\"properties\":[\"firstname\",\"lastname\",\"email\",\"company\",\"phone\"]}"
+      }
+    },
+    {
+      "name": "create_hubspot_contact",
+      "description": "Create a new contact in HubSpot CRM.",
+      "inputSchema": [
+        { "name": "email", "description": "Contact email address", "type": "text", "required": true },
+        { "name": "firstName", "description": "First name", "type": "text", "required": false },
+        { "name": "lastName", "description": "Last name", "type": "text", "required": false },
+        { "name": "company", "description": "Company name", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/crm/v3/objects/contacts",
+        "body": "{\"properties\":{\"email\":\"{{email}}\",\"firstname\":\"{{firstName}}\",\"lastname\":\"{{lastName}}\",\"company\":\"{{company}}\"}}"
+      }
+    },
+    {
+      "name": "list_hubspot_deals",
+      "description": "List deals in HubSpot CRM with their stage and amount.",
+      "inputSchema": [
+        { "name": "limit", "description": "Maximum number of deals (default 20)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/crm/v3/objects/deals?limit={{limit}}&properties=dealname,amount,dealstage,closedate,hubspot_owner_id"
+      }
+    }
+  ]
+}

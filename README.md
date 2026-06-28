@@ -39,7 +39,7 @@ Everything runs locally. No accounts, no cloud, no SaaS — your tools and secre
 
 - **No-code Tool Wizard.** Create AI tools step by step: name, AI-facing description, input fields, action. The JSON Schema is generated for you.
 - **Three ways to power a tool.** Call any REST API, reuse a saved integration, or run a JavaScript / Python script for advanced cases.
-- **Built-in integrations.** Jira, GitHub, Slack, Notion, Google Sheets, Google Calendar, Gmail, and generic REST — with stored credentials and connection testing.
+- **Built-in integrations.** Jira, GitHub, Slack, Notion, Google Sheets, Google Calendar, Gmail, Linear, Confluence, Microsoft Teams, Airtable, Discord, Stripe, HubSpot, Zendesk, and generic REST — with stored credentials and connection testing.
 - **One-click connect.** MyMCP detects installed clients (Claude Desktop, Cursor, VS Code / Copilot) and writes the config for you. Existing servers are preserved and the previous config is backed up first.
 - **Manual export.** Copy ready-to-paste config snippets for any MCP client.
 - **Git-friendly projects.** Your entire setup is a single `project.json` file you can version, share, and import.
@@ -94,7 +94,7 @@ MyMCP provides a small set of focused screens:
 | ----------------- | -------------------------------------------------------------------------- |
 | **Dashboard**     | See your project, tools, and MCP status. Import / export `project.json`.    |
 | **New tool**      | A step-by-step wizard: name, AI description, input fields, action.          |
-| **Integrations**  | Connect Jira, GitHub, Slack, Notion, Google Sheets, Calendar, Gmail, or any REST API. One click imports a ready-made starter tool pack for each service. |
+| **Integrations**  | Connect Jira, GitHub, Slack, Notion, Google Sheets, Calendar, Gmail, Linear, Confluence, Microsoft Teams, Airtable, Discord, Stripe, HubSpot, Zendesk, or any REST API. One click imports a ready-made starter tool pack for each service. |
 | **Connect to AI** | Copy ready-made config, or auto-connect to Claude Desktop, Cursor, VS Code. |
 
 ### Tool actions
@@ -167,7 +167,7 @@ mymcp/
 │       ├── routes/      project · tools · integrations · server · export
 │       └── storage/     project persistence
 ├── projects/        your project.json lives here (Git-friendly)
-├── templates/       starter tool packs per service (Jira, GitHub, Slack, Notion, Google Sheets, Calendar, Gmail)
+├── templates/       starter tool packs per service (Jira, GitHub, Slack, Notion, Google Sheets, Calendar, Gmail, Linear, Confluence, MS Teams, Airtable, Discord, Stripe, HubSpot, Zendesk)
 ├── generated/       the compiled MCP server artifact (generated/server.mjs)
 ├── start.bat        one-click launcher (Windows)
 └── start.sh         one-click launcher (macOS / Linux)
@@ -220,6 +220,7 @@ The generated server links to the installed dependencies, so a connected client 
 - [x] Single-command launcher (backend + web app in one window)
 - [x] Starter tool packs per service — Jira (search / create / comment), GitHub (list / create issues, search repos), Slack (post / list channels / history), Notion (search / get / create page)
 - [x] Google integrations: Sheets (read / append / update), Calendar (list / create / get events), Gmail (search / get messages / list labels)
+- [x] Extended integrations: Linear (list / search / create issues), Confluence (search / get / create pages), Microsoft Teams (list teams / channels / send message), Airtable (list / create / update records), Discord (send message / list channels / get history), Stripe (list customers / charges / retrieve customer), HubSpot (search contacts / create contact / list deals), Zendesk (list / get / create tickets)
 - [x] "Add starter tools" UX: pre-checked checkbox when adding an integration; tools are pre-wired to your credentials automatically
 
 ### Next — two pillars

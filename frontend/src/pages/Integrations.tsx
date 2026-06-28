@@ -117,6 +117,120 @@ const PRESETS: Record<
       },
     ],
   },
+  linear: {
+    label: "Linear",
+    baseUrl: "https://api.linear.app",
+    creds: [
+      {
+        key: "apiKey",
+        label: "API key",
+        secret: true,
+        guidance: "Generate a personal API key at Linear → Settings → API → Personal API keys.",
+        learnMoreUrl: "https://linear.app/settings/api",
+      },
+    ],
+  },
+  confluence: {
+    label: "Confluence",
+    baseUrl: "https://your-domain.atlassian.net/wiki",
+    creds: [
+      {
+        key: "email",
+        label: "Account email",
+        guidance: "Your Atlassian account email address (same as for Jira).",
+      },
+      {
+        key: "apiToken",
+        label: "API token",
+        secret: true,
+        guidance: "Generate at Atlassian → Account Settings → Security → API tokens.",
+        learnMoreUrl: "https://id.atlassian.com/manage-profile/security/api-tokens",
+      },
+    ],
+  },
+  "ms-teams": {
+    label: "Microsoft Teams",
+    baseUrl: "https://graph.microsoft.com/v1.0",
+    creds: [
+      {
+        key: "accessToken",
+        label: "OAuth2 access token",
+        secret: true,
+        guidance: "Short-lived token from Microsoft Graph. Use Graph Explorer to get one quickly. Required scopes: Team.ReadBasic.All, Channel.ReadBasic.All, ChannelMessage.Send.",
+        learnMoreUrl: "https://developer.microsoft.com/en-us/graph/graph-explorer",
+      },
+    ],
+  },
+  airtable: {
+    label: "Airtable",
+    baseUrl: "https://api.airtable.com/v0",
+    creds: [
+      {
+        key: "apiKey",
+        label: "Personal access token",
+        secret: true,
+        guidance: "Create a personal access token at Airtable → Account → Developer hub → Personal access tokens. Scopes needed: data.records:read, data.records:write.",
+        learnMoreUrl: "https://airtable.com/create/tokens",
+      },
+    ],
+  },
+  discord: {
+    label: "Discord",
+    baseUrl: "https://discord.com/api/v10",
+    creds: [
+      {
+        key: "botToken",
+        label: "Bot token",
+        secret: true,
+        guidance: "Create a bot at Discord Developer Portal → Applications → Bot → Reset Token. Add the bot to your server with the appropriate permissions.",
+        learnMoreUrl: "https://discord.com/developers/applications",
+      },
+    ],
+  },
+  stripe: {
+    label: "Stripe",
+    baseUrl: "https://api.stripe.com/v1",
+    creds: [
+      {
+        key: "apiKey",
+        label: "Secret key (sk_…)",
+        secret: true,
+        guidance: "Find your secret key at Stripe Dashboard → Developers → API keys. Use a restricted key with only the permissions your tools need.",
+        learnMoreUrl: "https://dashboard.stripe.com/apikeys",
+      },
+    ],
+  },
+  hubspot: {
+    label: "HubSpot",
+    baseUrl: "https://api.hubapi.com",
+    creds: [
+      {
+        key: "accessToken",
+        label: "Private app access token",
+        secret: true,
+        guidance: "Create a private app at HubSpot → Settings → Integrations → Private Apps and copy its access token. Select the CRM scopes your tools need.",
+        learnMoreUrl: "https://app.hubspot.com/private-apps",
+      },
+    ],
+  },
+  zendesk: {
+    label: "Zendesk",
+    baseUrl: "https://your-subdomain.zendesk.com/api/v2",
+    creds: [
+      {
+        key: "email",
+        label: "Account email",
+        guidance: "Your Zendesk agent account email address.",
+      },
+      {
+        key: "apiToken",
+        label: "API token",
+        secret: true,
+        guidance: "Generate at Zendesk Admin Center → Apps and Integrations → APIs → Zendesk API → API token.",
+        learnMoreUrl: "https://support.zendesk.com/hc/en-us/articles/4408889192858",
+      },
+    ],
+  },
   rest: {
     label: "Custom REST API",
     baseUrl: "https://api.example.com",

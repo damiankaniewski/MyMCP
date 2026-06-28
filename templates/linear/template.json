@@ -1,0 +1,53 @@
+{
+  "type": "linear",
+  "name": "Linear",
+  "label": "Linear",
+  "baseUrlHint": "https://api.linear.app",
+  "credentials": [
+    { "key": "apiKey", "label": "API key", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "list_linear_issues",
+      "description": "List your assigned Linear issues, optionally filtered by team.",
+      "inputSchema": [
+        { "name": "teamId", "description": "Team ID to filter by (leave blank for all teams)", "type": "text", "required": false },
+        { "name": "first", "description": "Number of issues to return (default 20)", "type": "number", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/graphql",
+        "body": "{\"query\":\"{ issues(first: {{first}}) { nodes { id identifier title state { name } assignee { name } priority } } }\"}"
+      }
+    },
+    {
+      "name": "search_linear_issues",
+      "description": "Search Linear issues by title keyword.",
+      "inputSchema": [
+        { "name": "query", "description": "Text to search for in issue titles", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/graphql",
+        "body": "{\"query\":\"{ issueSearch(query: \\\"{{query}}\\\", first: 20) { nodes { id identifier title state { name } assignee { name } url } } }\"}"
+      }
+    },
+    {
+      "name": "create_linear_issue",
+      "description": "Create a new issue in a Linear team.",
+      "inputSchema": [
+        { "name": "teamId", "description": "Linear team ID", "type": "text", "required": true },
+        { "name": "title", "description": "Issue title", "type": "text", "required": true },
+        { "name": "description", "description": "Issue description (Markdown supported)", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/graphql",
+        "body": "{\"query\":\"mutation { issueCreate(input: { teamId: \\\"{{teamId}}\\\", title: \\\"{{title}}\\\", description: \\\"{{description}}\\\" }) { success issue { id identifier title url } } }\"}"
+      }
+    }
+  ]
+}

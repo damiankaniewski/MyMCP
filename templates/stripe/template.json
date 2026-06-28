@@ -1,0 +1,49 @@
+{
+  "type": "stripe",
+  "name": "Stripe",
+  "label": "Stripe",
+  "baseUrlHint": "https://api.stripe.com/v1",
+  "credentials": [
+    { "key": "apiKey", "label": "Secret key (sk_…)", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "list_stripe_customers",
+      "description": "List customers in your Stripe account.",
+      "inputSchema": [
+        { "name": "limit", "description": "Maximum number of customers to return (max 100, default 20)", "type": "number", "required": false },
+        { "name": "email", "description": "Filter by exact email address", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/customers?limit={{limit}}&email={{email}}"
+      }
+    },
+    {
+      "name": "list_stripe_charges",
+      "description": "List recent charges in your Stripe account.",
+      "inputSchema": [
+        { "name": "limit", "description": "Maximum number of charges to return (max 100, default 20)", "type": "number", "required": false },
+        { "name": "customer", "description": "Filter by customer ID", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/charges?limit={{limit}}&customer={{customer}}"
+      }
+    },
+    {
+      "name": "retrieve_stripe_customer",
+      "description": "Retrieve a single Stripe customer by ID.",
+      "inputSchema": [
+        { "name": "customerId", "description": "Customer ID (starts with cus_…)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/customers/{{customerId}}"
+      }
+    }
+  ]
+}

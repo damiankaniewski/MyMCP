@@ -1,0 +1,48 @@
+{
+  "type": "ms-teams",
+  "name": "Microsoft Teams",
+  "label": "Microsoft Teams",
+  "baseUrlHint": "https://graph.microsoft.com/v1.0",
+  "credentials": [
+    { "key": "accessToken", "label": "OAuth2 access token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "list_teams",
+      "description": "List all Microsoft Teams the current user has joined.",
+      "inputSchema": [],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/me/joinedTeams"
+      }
+    },
+    {
+      "name": "list_team_channels",
+      "description": "List channels in a Microsoft Teams team.",
+      "inputSchema": [
+        { "name": "teamId", "description": "Team ID (from list_teams)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/teams/{{teamId}}/channels"
+      }
+    },
+    {
+      "name": "send_teams_message",
+      "description": "Send a message to a channel in a Microsoft Teams team.",
+      "inputSchema": [
+        { "name": "teamId", "description": "Team ID", "type": "text", "required": true },
+        { "name": "channelId", "description": "Channel ID (from list_team_channels)", "type": "text", "required": true },
+        { "name": "content", "description": "Message text (HTML supported)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/teams/{{teamId}}/channels/{{channelId}}/messages",
+        "body": "{\"body\":{\"contentType\":\"html\",\"content\":\"{{content}}\"}}"
+      }
+    }
+  ]
+}

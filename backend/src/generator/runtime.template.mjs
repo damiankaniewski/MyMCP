@@ -105,7 +105,29 @@ async function runIntegration(config, params) {
     case "google-sheets":
     case "google-calendar":
     case "gmail":
+    case "ms-teams":
+    case "hubspot":
       if (secrets.accessToken) headers.Authorization = `Bearer ${secrets.accessToken}`;
+      break;
+    case "linear":
+    case "airtable":
+    case "stripe":
+      if (secrets.apiKey) headers.Authorization = `Bearer ${secrets.apiKey}`;
+      break;
+    case "confluence":
+      if (secrets.email && secrets.apiToken) {
+        const basic = Buffer.from(`${secrets.email}:${secrets.apiToken}`).toString("base64");
+        headers.Authorization = `Basic ${basic}`;
+      }
+      break;
+    case "discord":
+      if (secrets.botToken) headers.Authorization = `Bot ${secrets.botToken}`;
+      break;
+    case "zendesk":
+      if (secrets.email && secrets.apiToken) {
+        const basic = Buffer.from(`${secrets.email}/token:${secrets.apiToken}`).toString("base64");
+        headers.Authorization = `Basic ${basic}`;
+      }
       break;
     case "rest":
     default:

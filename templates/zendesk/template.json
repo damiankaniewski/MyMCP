@@ -1,0 +1,53 @@
+{
+  "type": "zendesk",
+  "name": "Zendesk",
+  "label": "Zendesk",
+  "baseUrlHint": "https://your-subdomain.zendesk.com/api/v2",
+  "credentials": [
+    { "key": "email", "label": "Agent email", "secret": false },
+    { "key": "apiToken", "label": "API token", "secret": true }
+  ],
+  "starterTools": [
+    {
+      "name": "list_zendesk_tickets",
+      "description": "List recent Zendesk support tickets.",
+      "inputSchema": [
+        { "name": "perPage", "description": "Number of tickets per page (default 25, max 100)", "type": "number", "required": false },
+        { "name": "status", "description": "Filter by status: new, open, pending, hold, solved, closed", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/tickets.json?per_page={{perPage}}&status={{status}}"
+      }
+    },
+    {
+      "name": "get_zendesk_ticket",
+      "description": "Retrieve a single Zendesk ticket by ID.",
+      "inputSchema": [
+        { "name": "ticketId", "description": "Ticket ID (numeric)", "type": "text", "required": true }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "GET",
+        "path": "/tickets/{{ticketId}}.json"
+      }
+    },
+    {
+      "name": "create_zendesk_ticket",
+      "description": "Create a new support ticket in Zendesk.",
+      "inputSchema": [
+        { "name": "subject", "description": "Ticket subject", "type": "text", "required": true },
+        { "name": "body", "description": "Ticket description / first comment", "type": "text", "required": true },
+        { "name": "requesterEmail", "description": "Email of the requester", "type": "text", "required": false },
+        { "name": "priority", "description": "Priority: low, normal, high, or urgent", "type": "text", "required": false }
+      ],
+      "executionType": "integration",
+      "executionConfig": {
+        "method": "POST",
+        "path": "/tickets.json",
+        "body": "{\"ticket\":{\"subject\":\"{{subject}}\",\"comment\":{\"body\":\"{{body}}\"},\"requester\":{\"email\":\"{{requesterEmail}}\"},\"priority\":\"{{priority}}\"}}"
+      }
+    }
+  ]
+}
