@@ -226,7 +226,7 @@ The generated server links to the installed dependencies, so a connected client 
 
 **1. Integration polish**
 
-- [ ] Friendly per-field guidance (where to get the token, scopes needed)
+- [x] Friendly per-field guidance (where to get the token, scopes needed)
 
 **2. HTTP transport with auth (self-hosting)**
 Run the generated server on a shared/corporate host instead of only locally

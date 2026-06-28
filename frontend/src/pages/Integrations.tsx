@@ -13,6 +13,8 @@ interface CredField {
   key: string;
   label: string;
   secret?: boolean;
+  guidance?: string;
+  learnMoreUrl?: string;
 }
 
 const PRESETS: Record<
@@ -23,44 +25,109 @@ const PRESETS: Record<
     label: "Jira",
     baseUrl: "https://your-domain.atlassian.net",
     creds: [
-      { key: "email", label: "Account email" },
-      { key: "apiToken", label: "API token", secret: true },
+      {
+        key: "email",
+        label: "Account email",
+        guidance: "Your Atlassian account email address (e.g. you@company.com).",
+      },
+      {
+        key: "apiToken",
+        label: "API token",
+        secret: true,
+        guidance: "Generate at Atlassian → Account Settings → Security → API tokens.",
+        learnMoreUrl: "https://id.atlassian.com/manage-profile/security/api-tokens",
+      },
     ],
   },
   github: {
     label: "GitHub",
     baseUrl: "https://api.github.com",
-    creds: [{ key: "token", label: "Personal access token", secret: true }],
+    creds: [
+      {
+        key: "token",
+        label: "Personal access token",
+        secret: true,
+        guidance: "Create a classic token with repo and issues scopes at GitHub → Settings → Developer settings → Personal access tokens.",
+        learnMoreUrl: "https://github.com/settings/tokens/new",
+      },
+    ],
   },
   slack: {
     label: "Slack",
     baseUrl: "https://slack.com/api",
-    creds: [{ key: "token", label: "Bot token (xoxb-…)", secret: true }],
+    creds: [
+      {
+        key: "token",
+        label: "Bot token (xoxb-…)",
+        secret: true,
+        guidance: "Create a Slack app, install it to your workspace, and copy the Bot User OAuth Token. Required scopes: chat:write, channels:read, channels:history.",
+        learnMoreUrl: "https://api.slack.com/apps",
+      },
+    ],
   },
   notion: {
     label: "Notion",
     baseUrl: "https://api.notion.com/v1",
-    creds: [{ key: "token", label: "Integration token", secret: true }],
+    creds: [
+      {
+        key: "token",
+        label: "Integration token",
+        secret: true,
+        guidance: "Create an internal integration at Notion → Settings → Integrations, then share each database or page with it.",
+        learnMoreUrl: "https://www.notion.so/my-integrations",
+      },
+    ],
   },
   "google-sheets": {
     label: "Google Sheets",
     baseUrl: "https://sheets.googleapis.com/v4",
-    creds: [{ key: "accessToken", label: "OAuth2 access token", secret: true }],
+    creds: [
+      {
+        key: "accessToken",
+        label: "OAuth2 access token",
+        secret: true,
+        guidance: "Short-lived token (expires in 1 h). Use the OAuth Playground to get one quickly — select the Sheets API scope (…/auth/spreadsheets).",
+        learnMoreUrl: "https://developers.google.com/oauthplayground",
+      },
+    ],
   },
   "google-calendar": {
     label: "Google Calendar",
     baseUrl: "https://www.googleapis.com/calendar/v3",
-    creds: [{ key: "accessToken", label: "OAuth2 access token", secret: true }],
+    creds: [
+      {
+        key: "accessToken",
+        label: "OAuth2 access token",
+        secret: true,
+        guidance: "Short-lived token (expires in 1 h). Use the OAuth Playground to get one quickly — select the Calendar API scope (…/auth/calendar).",
+        learnMoreUrl: "https://developers.google.com/oauthplayground",
+      },
+    ],
   },
   gmail: {
     label: "Gmail",
     baseUrl: "https://gmail.googleapis.com/gmail/v1",
-    creds: [{ key: "accessToken", label: "OAuth2 access token", secret: true }],
+    creds: [
+      {
+        key: "accessToken",
+        label: "OAuth2 access token",
+        secret: true,
+        guidance: "Short-lived token (expires in 1 h). Use the OAuth Playground to get one quickly — select the Gmail API scope (…/auth/gmail.readonly).",
+        learnMoreUrl: "https://developers.google.com/oauthplayground",
+      },
+    ],
   },
   rest: {
     label: "Custom REST API",
     baseUrl: "https://api.example.com",
-    creds: [{ key: "apiKey", label: "API key (optional)", secret: true }],
+    creds: [
+      {
+        key: "apiKey",
+        label: "API key (optional)",
+        secret: true,
+        guidance: "Your API key or bearer token. Leave blank if the API is public or uses a different auth method.",
+      },
+    ],
   },
 };
 
@@ -212,6 +279,21 @@ export default function Integrations() {
                     })
                   }
                 />
+                {c.guidance && (
+                  <p className="mt-1 text-xs text-slate-500">
+                    {c.guidance}{" "}
+                    {c.learnMoreUrl && (
+                      <a
+                        href={c.learnMoreUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-indigo-600 hover:underline"
+                      >
+                        Learn more
+                      </a>
+                    )}
+                  </p>
+                )}
               </div>
             ))}
             {starterCount(form.type) > 0 && (
